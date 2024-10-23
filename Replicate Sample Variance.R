@@ -28,7 +28,7 @@ OLIT_Data <- read_excel("./Data/Replicate Sample Data.xlsx", sheet = "OLIT")
 WCA1T_Data <- read_excel("./Data/Replicate Sample Data.xlsx", sheet = "WCA1T")
 WCA2A_Data <- read_excel("./Data/Replicate Sample Data.xlsx", sheet = "WCA-2A")
 
-analytes <- c("KJELDAHL NITROGEN, TOTAL","PHOSPHATE, TOTAL AS P","CARBON, TOTAL ORGANIC","COLOR","PHOSPHATE, ORTHO AS P",
+analytes_DBHYDRO <- c("KJELDAHL NITROGEN, TOTAL","PHOSPHATE, TOTAL AS P","CARBON, TOTAL ORGANIC","COLOR","PHOSPHATE, ORTHO AS P",
               "CHLORIDE","SULFATE","NITRITE-N","NITRATE+NITRITE-N","SILICA",
               "PHOSPHATE, DISSOLVED AS P","CARBON, DISSOLVED ORGANIC","KJELDAHL NITROGEN, DIS","AMMONIA-N","SODIUM",
               "MAGNESIUM","CALCIUM","POTASSIUM","IRON, TOTAL") #NO3 and hardness are calculated so excluded. TDSAL excluded due to lab method
@@ -54,14 +54,13 @@ bind_rows(OLIT_Data)   %>%
 bind_rows(WCA1T_Data)  %>%
 bind_rows(WCA2A_Data)  %>%
 filter(MATRIX=="SW" ) %>%
-filter(SAMPLE_TYPE_NEW=="SAMP" || SAMPLE_TYPE_NEW=="RS") %>%
+filter(SAMPLE_TYPE_NEW=="SAMP" | SAMPLE_TYPE_NEW=="RS") %>%
 filter(SAMPLE_TYPE_NEW!="FCEB") %>% 
 filter(SAMPLE_TYPE_NEW!="EB") %>% 
 filter(COLLECT_METHOD=="G") %>% 
 filter(is.na(FLAG))%>%
-filter(TEST_NAME  %in% analytes) %>%
-mutate(VALUE=ifelse(VALUE>MDL & VALUE<=PQL,PQL,VALUE)) %>%                   #Transforms values below the PQL to the PQL  
-mutate(VALUE=ifelse(VALUE<MDL,MDL,VALUE)) %>%                                #Transforms values below the MDL to the MDL
+filter(TEST_NAME  %in% analytes_DBHYDRO) %>%
+mutate(VALUE=ifelse(VALUE>MDL & VALUE<=PQL,PQL,VALUE)) %>%                   #Transforms values below the PQL to the PQL  #mutate(VALUE=ifelse(VALUE<MDL,MDL,VALUE)) %>%                                #Transforms values below the MDL to the MDL
 mutate(VALUE=if_else(TEST_NAME == "IRON, TOTAL",VALUE/1000,VALUE)) %>%       #Converts Iron to mg/l from ug/l
 mutate(Date=as.Date(DATE_COLLECTED))  %>%
 mutate(`Station and Time`= paste(STATION_ID,Date))  %>%
@@ -85,7 +84,7 @@ mutate(Flag= case_when(TEST_NAME=="PHOSPHATE, ORTHO AS P" & between(`VALUE`,.002
                          TEST_NAME=="POTASSIUM" & between(`VALUE`,5.5,10.7) ~"Inside", 
                          TEST_NAME=="SULFATE" & between(`VALUE`,18.8,66.5) ~"Inside",
                          TEST_NAME=="NITRITE-N" & between(`VALUE`,.002,.008) ~"Inside",
-                         TRUE ~ as.character("Outside"))) %>%
+                         TRUE ~ as.character("Outside"))) # %>%
 filter(Flag=="Inside")                                                   #filter data to same range as PTS data
 
 Samples <- All_Data %>%
@@ -144,6 +143,60 @@ mutate(TEST_NAME= case_when(TEST_NAME=="PHOSPHATE, ORTHO AS P" ~"OPO4",
                               TRUE ~ as.character(TEST_NAME)))
 
 
+
+# Compare range of PTS data to Compliance Data ----------------------------
+
+Analyte_Range <- EVPA_Data  %>%
+  bind_rows(RTBG_Data)   %>%
+  bind_rows(OLIT_Data)   %>%
+  bind_rows(WCA1T_Data)  %>%
+  bind_rows(WCA2A_Data)  %>%
+  filter(MATRIX=="SW" ) %>%
+  filter(SAMPLE_TYPE_NEW!="FCEB") %>% 
+  filter(SAMPLE_TYPE_NEW!="EB") %>% 
+  filter(COLLECT_METHOD=="G") %>% 
+  filter(is.na(FLAG))%>%
+  mutate(TEST_NAME= case_when(TEST_NAME=="PHOSPHATE, ORTHO AS P" ~"OPO4",    
+                              TEST_NAME=="PHOSPHATE, TOTAL AS P" ~"TPO4",
+                              TEST_NAME=="PHOSPHATE, DISSOLVED AS P" ~"TDPO4",
+                              TEST_NAME=="IRON, TOTAL" ~"TDSFE", 
+                              TEST_NAME=="SILICA" ~"SIO2",
+                              TEST_NAME=="HARDNESS AS CACO3" ~"Hardness",
+                              TEST_NAME=="ALKALINITY, TOT, CACO3" ~"Alkalinity",  
+                              TEST_NAME=="CARBON, DISSOLVED ORGANIC" ~"DOC",
+                              TEST_NAME=="AMMONIA-N" ~"NH4",
+                              TEST_NAME=="KJELDAHL NITROGEN, DIS" ~ "TDN",
+                              TEST_NAME=="NITRATE+NITRITE-N" ~ "NOX",
+                              TEST_NAME=="CARBON, TOTAL ORGANIC" ~ "TOC",
+                              TEST_NAME=="KJELDAHL NITROGEN, TOTAL" ~ "TN",
+                              TEST_NAME=="SODIUM" ~"NA",  
+                              TEST_NAME=="MAGNESIUM" ~"MG",
+                              TEST_NAME=="CALCIUM" ~"CA",
+                              TEST_NAME=="CHLORIDE" ~"CL",
+                              TEST_NAME=="POTASSIUM" ~"K", 
+                              TEST_NAME=="SULFATE" ~ "SO4",
+                              TEST_NAME=="NITRITE-N" ~ "NO2",
+                              TRUE ~ as.character(TEST_NAME))) %>%
+  filter(TEST_NAME  %in% analytes) %>%
+  dplyr::select(TEST_NAME,VALUE,UNITS) %>%
+  mutate(SOURCE="Compliance") %>%
+  bind_rows(Sample_Results %>%  select(TEST_NAME,VALUE,UNITS)  %>% mutate(SOURCE="PTS") %>% filter(TEST_NAME %in% analytes))
+
+analytes <- c("TN","TPO4","TOC","COLOR","OPO4","CL","SO4","NO2","NOX","SIO2","TDPO4","DOC","TDN","NH4","NA","MG","CA","K","TDSFE") #NO3 and hardness are calculated so excluded. TDSAL excluded due to lab method
+
+
+ggplot(Analyte_Range,aes(VALUE,fill=SOURCE))+geom_histogram(color="grey20")+facet_wrap(~TEST_NAME,scales="free")+theme_bw()
+ggplot(Analyte_Range,aes(VALUE,fill=SOURCE))+geom_area(stat = "bin")+facet_wrap(~TEST_NAME,scales="free")+theme_bw()
+ggplot(Analyte_Range,aes(VALUE,fill=SOURCE))+geom_boxplot()+facet_wrap(~TEST_NAME,scales="free")+theme_bw()
+
+
+ggplot(filter(Analyte_Range, TEST_NAME=="TPO4"),aes(VALUE,fill=SOURCE))+geom_boxplot()+facet_wrap(~TEST_NAME,scales="free")+theme_bw()+coord_cartesian(xlim=c(0,0.1))
+ggplot(filter(Analyte_Range, TEST_NAME=="TPO4"),aes(VALUE,fill=SOURCE))+geom_histogram(color="grey20",binwidth=.01)+facet_wrap(~TEST_NAME,scales="free")+theme_bw()+coord_cartesian(xlim=c(0,0.1))
+
+analyte_range_table <- Analyte_Range %>%
+group_by(TEST_NAME,SOURCE,UNITS) %>%
+summarise(n(),min=min(abs(VALUE),na.rm=T),mean=mean(VALUE,na.rm=T),max=max(VALUE,na.rm=T),Q0.05=quantile(VALUE,.05),Q0.25=quantile(VALUE,.25),Q0.5=quantile(VALUE,.5),Q0.75=quantile(VALUE,.75),Q0.95=quantile(VALUE,.95),
+range=max-min)  
 
 # Replicate Variance vs Preservation time variance ------------------------
 
