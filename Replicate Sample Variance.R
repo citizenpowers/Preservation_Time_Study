@@ -180,7 +180,7 @@ Analyte_Range <- EVPA_Data  %>%
   filter(TEST_NAME  %in% analytes) %>%
   dplyr::select(TEST_NAME,VALUE,UNITS) %>%
   mutate(SOURCE="Compliance") %>%
-  bind_rows(Sample_Results %>%  select(TEST_NAME,VALUE,UNITS)  %>% mutate(SOURCE="PTS") %>% filter(TEST_NAME %in% analytes))
+  bind_rows(Sample_Results %>% filter(is.na(FQC)) %>%  select(TEST_NAME,VALUE,UNITS)  %>% mutate(SOURCE="PTS") %>% filter(TEST_NAME %in% analytes)  )
 
 analytes <- c("TN","TPO4","TOC","COLOR","OPO4","CL","SO4","NO2","NOX","SIO2","TDPO4","DOC","TDN","NH4","NA","MG","CA","K","TDSFE") #NO3 and hardness are calculated so excluded. TDSAL excluded due to lab method
 
