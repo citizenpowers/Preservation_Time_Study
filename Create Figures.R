@@ -4,8 +4,11 @@
 
 # import data -------------------------------------------------------------
 
-All_results_LOA <- read.csv("./Data/All_results_LOA.csv")
+All_results_LOA <- read_csv("./Data/All_results_LOA.csv")
 
+#Analytes with normal distributions
+analytes_Normal_8 <- c("CA","CL","MG","NA","SIO2")         #Normal based on shapiro-wilks for 8-hour data
+analytes_Normal_24 <- c("CA","DOC","K","NA","TN","TOC")    #based on shapiro-wilks for 24-hour data
 
 
 

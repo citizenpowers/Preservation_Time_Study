@@ -2,6 +2,7 @@
 remove(list=ls()) #removes all objects from project
 
 library(EnvStats) 
+library(readr)
 library(Metrics)
 library(moments)
 library(readxl)
@@ -17,10 +18,12 @@ library(ggpmisc)
 library(lubridate)
 library(gghighlight)
 library(ggrepel)
-library(quantileCI)
+# library(quantileCI)
 
 
 # Import Data -------------------------------------------------------------
+
+Sample_Results_Tidy <- read_csv("Data/Sample_Results_Tidy.csv")
 
 EVPA_Data <- read_excel("./Data/Replicate Sample Data.xlsx", sheet = "EVPA")
 RTBG_Data <- read_excel("./Data/Replicate Sample Data.xlsx", sheet = "RTBG")
@@ -32,6 +35,9 @@ analytes_DBHYDRO <- c("KJELDAHL NITROGEN, TOTAL","PHOSPHATE, TOTAL AS P","CARBON
               "CHLORIDE","SULFATE","NITRITE-N","NITRATE+NITRITE-N","SILICA",
               "PHOSPHATE, DISSOLVED AS P","CARBON, DISSOLVED ORGANIC","KJELDAHL NITROGEN, DIS","AMMONIA-N","SODIUM",
               "MAGNESIUM","CALCIUM","POTASSIUM","IRON, TOTAL") #NO3 and hardness are calculated so excluded. TDSAL excluded due to lab method
+
+#Analytes in project PTS  
+analytes <- c("TN","TPO4","TOC","COLOR","OPO4","CL","SO4","NO2","NOX","SIO2","TDPO4","DOC","TDN","NH4","NA","MG","CA","K","TDSAL","TDSFE") #NO3 and harness are calculated so excluded
 
 Critical_values_Table_Paired_Data  <- read_excel("./Data/Critical values Table Paired Data.xlsx")
 
@@ -65,6 +71,7 @@ mutate(VALUE=if_else(TEST_NAME == "IRON, TOTAL",VALUE/1000,VALUE)) %>%       #Co
 mutate(Date=as.Date(DATE_COLLECTED))  %>%
 mutate(`Station and Time`= paste(STATION_ID,Date))  %>%
 semi_join(Replicates, by="Station and Time") %>%
+mutate(VALUE=abs(VALUE)) %>%  #Compliance samples reported as negative values when below detection limits
 mutate(Flag= case_when(TEST_NAME=="PHOSPHATE, ORTHO AS P" & between(`VALUE`,.002,.126) ~"Inside",    
                          TEST_NAME=="PHOSPHATE, TOTAL AS P" & between(`VALUE`,.006,.217) ~"Inside",
                          TEST_NAME=="PHOSPHATE, DISSOLVED AS P"& between(`VALUE`,.004,.145) ~"Inside",
@@ -72,20 +79,26 @@ mutate(Flag= case_when(TEST_NAME=="PHOSPHATE, ORTHO AS P" & between(`VALUE`,.002
                          TEST_NAME=="COLOR"& between(`VALUE`,56,93) ~"Inside", 
                          TEST_NAME=="SILICA" & between(`VALUE`,8.6,16.2) ~"Inside",
                          TEST_NAME=="CARBON, DISSOLVED ORGANIC" & between(`VALUE`,21.8,38.2) ~"Inside",
-                         TEST_NAME=="AMMONIA-N" & between(`VALUE`,.012,1.071) ~"Inside",
+                         TEST_NAME=="AMMONIA-N" & between(`VALUE`,.012,1.084) ~"Inside",
                          TEST_NAME=="KJELDAHL NITROGEN, DIS" & between(`VALUE`,1.31,2.53) ~"Inside",
-                         TEST_NAME=="NITRATE+NITRITE-N" & between(`VALUE`,.006,.281 )~"Inside",
-                         TEST_NAME=="CARBON, TOTAL ORGANIC" & between(`VALUE`,21.8,38.7) ~"Inside",
+                         TEST_NAME=="NITRATE+NITRITE-N" & between(`VALUE`,.005,.284 )~"Inside",
+                         TEST_NAME=="CARBON, TOTAL ORGANIC" & between(`VALUE`,21.9,38.7) ~"Inside",
                          TEST_NAME=="KJELDAHL NITROGEN, TOTAL" & between(`VALUE`,1.38,3.27 )~"Inside",
-                         TEST_NAME=="SODIUM" & between(`VALUE`,37,113.6) ~"Inside",  
+                         TEST_NAME=="SODIUM" & between(`VALUE`,36.8,113.6) ~"Inside",  
                          TEST_NAME=="MAGNESIUM" & between(`VALUE`,11,34.4) ~"Inside",
-                         TEST_NAME=="CALCIUM" & between(`VALUE`,29,82.8) ~"Inside",
-                         TEST_NAME=="CHLORIDE" & between(`VALUE`,59.6,169) ~"Inside",
+                         TEST_NAME=="CALCIUM" & between(`VALUE`,28.7,82.8) ~"Inside",
+                         TEST_NAME=="CHLORIDE" & between(`VALUE`,59.4,169) ~"Inside",
                          TEST_NAME=="POTASSIUM" & between(`VALUE`,5.5,10.7) ~"Inside", 
-                         TEST_NAME=="SULFATE" & between(`VALUE`,18.8,66.5) ~"Inside",
+                         TEST_NAME=="SULFATE" & between(`VALUE`,18.5,66.6) ~"Inside",
                          TEST_NAME=="NITRITE-N" & between(`VALUE`,.002,.008) ~"Inside",
-                         TRUE ~ as.character("Outside"))) # %>%
-filter(Flag=="Inside")                                                   #filter data to same range as PTS data
+                         TRUE ~ as.character("Outside"))) 
+
+
+#Range of data in PTS dataset for each parameter
+PTS_Range <- Sample_Results_Tidy %>%
+group_by(TEST_NAME) %>%
+summarise(min=min(VALUE,na.rm=T),max=max(VALUE,na.rm=T))
+
 
 Samples <- All_Data %>%
 select(PROJECT_CODE,STATION_ID,Date,TEST_NAME,SAMPLE_TYPE_NEW,VALUE) %>%
@@ -197,6 +210,7 @@ analyte_range_table <- Analyte_Range %>%
 group_by(TEST_NAME,SOURCE,UNITS) %>%
 summarise(n(),min=min(abs(VALUE),na.rm=T),mean=mean(VALUE,na.rm=T),max=max(VALUE,na.rm=T),Q0.05=quantile(VALUE,.05),Q0.25=quantile(VALUE,.25),Q0.5=quantile(VALUE,.5),Q0.75=quantile(VALUE,.75),Q0.95=quantile(VALUE,.95),
 range=max-min)  
+
 
 # Replicate Variance vs Preservation time variance ------------------------
 
