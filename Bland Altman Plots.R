@@ -1,4 +1,4 @@
-# Goal of this script is to create Blabd-Altman Plots for the analytes in the study
+# Goal of this script is to create Bland-Altman Plots for the analytes in the study
 #Objectives.  
 #1.) Define plot style
 #2.) Import Data
