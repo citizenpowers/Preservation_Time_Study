@@ -64,8 +64,8 @@ geom_point(shape=21,size=3 ,color="black",fill=Color2)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)), colour ="black" ,size = 1,linetype="dashed")+
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 8-Hour)`)+1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)-1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
-theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(6))+
-labs(title="Calcium: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
+theme_bw()+scale_y_continuous(breaks=pretty_breaks(6))+labs(title="Ca: 8-Hour ")+
+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 #BA plot for Calcium 24-hour
 ca_24_plot <- ggplot(filter(BA_Plot_Tidy, TEST_NAME=="CA") ,aes((Value_24_hour+Value_15_min)/2,`Difference (15-Min - 24-Hour)`))+
@@ -74,7 +74,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)), colour ="bla
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 24-Hour)`)+1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)-1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(7))+
-labs(title="Calcium: 24-Hour ",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
+labs(title="Ca: 24-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 ca_plot <-plot_grid(ca_8_plot, ca_24_plot, labels = c('A', 'B'), label_size = 12)
 
@@ -87,16 +87,16 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)), colour ="blac
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 8-Hour)`)+1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)-1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(6))+
-labs(title="Chloride: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
+labs(title="Cl: 8-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
-#BA plot for Calcium 24-hour
+#BA plot for chloride 24-hour
 cl_24_plot <- ggplot(filter(BA_Plot_Tidy, TEST_NAME=="CL") ,aes((Value_24_hour+Value_15_min)/2,`Difference (15-Min - 24-Hour)`))+
 geom_point(shape=21,size=3 ,color="black",fill=Color2)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)), colour ="black" ,size = 1,linetype="dashed")+
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 24-Hour)`)+1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)-1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(7))+
-labs(title="Chloride: 24-Hour ",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
+labs(title="Cl: 24-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 cl_plot <-plot_grid(cl_8_plot, cl_24_plot, labels = c('A', 'B'), label_size = 12)
 
@@ -131,7 +131,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)), colour ="blac
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 8-Hour)`)+1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)-1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(6))+
-labs(title="Dissolved Organic Carbon: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
+labs(title="DOC: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
 
 #BA plot for DOC 24-hour
 DOC_24_plot <- ggplot(filter(BA_Plot_Tidy, TEST_NAME=="DOC") ,aes((Value_24_hour+Value_15_min)/2,`Difference (15-Min - 24-Hour)`))+
@@ -140,7 +140,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)), colour ="bla
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 24-Hour)`)+1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)-1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(7))+
-labs(title="Dissolved Organic Carbon: 24-Hour ",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
+labs(title="DOC: 24-Hour ",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
 
 DOC_plot <-plot_grid(DOC_8_plot, DOC_24_plot, labels = c('A', 'B'), label_size = 12)
 
@@ -153,7 +153,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)), colour ="blac
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 8-Hour)`)+1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)-1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(6))+
-labs(title="Magnesium: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
+labs(title="Mg: 8-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 #BA plot for Magnesium 24-hour
 MG_24_plot <- ggplot(filter(BA_Plot_Tidy, TEST_NAME=="MG") ,aes((Value_24_hour+Value_15_min)/2,`Difference (15-Min - 24-Hour)`))+
@@ -162,7 +162,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)), colour ="bla
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 24-Hour)`)+1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)-1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(7))+
-labs(title="Magnesium: 24-Hour ",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
+labs(title="Mg: 24-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 MG_plot <-plot_grid(MG_8_plot, MG_24_plot, labels = c('A', 'B'), label_size = 12)
 
@@ -196,8 +196,8 @@ geom_jitter(shape=21,size=3 ,color="black",fill=Color2,width=0.0001,height=0.000
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)), colour ="black" ,size = 1,linetype="dashed")+
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 8-Hour)`)+1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)-1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
-theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(10))+scale_x_continuous(breaks=pretty_breaks(5))+
-labs(title="Nitrate + Nitrite: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
+theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=c(-.009,-.006,-.003,0,0.003,0.006,0.009,0.012))+scale_x_continuous(breaks=pretty_breaks(5))+
+labs(title="NOx: 8-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 #BA plot for NOx 24-hour
 NOX_24_plot <- ggplot(filter(BA_Plot_Tidy, TEST_NAME=="NOX") ,aes((Value_24_hour+Value_15_min)/2,`Difference (15-Min - 24-Hour)`))+
@@ -206,7 +206,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)), colour ="bla
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 24-Hour)`)+1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)-1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(6))+scale_x_continuous(breaks=pretty_breaks(5))+
-labs(title="Nitrate + Nitrite: 24-Hour",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
+labs(title="NOx: 24-Hour")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 NOX_plot <-plot_grid(NOX_8_plot, NOX_24_plot, labels = c('A', 'B'), label_size = 12)
 
@@ -219,7 +219,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)), colour ="blac
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 8-Hour)`)+1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)-1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=c(-.001,0,.001))+scale_x_continuous(breaks=pretty_breaks(5))+
-labs(title="Orthophosphate: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
+labs(title="OPO4: 8-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 #BA plot for Orthophosphate 24-hour
 OPO4_24_plot <- ggplot(filter(BA_Plot_Tidy, TEST_NAME=="OPO4") ,aes((Value_24_hour+Value_15_min)/2,`Difference (15-Min - 24-Hour)`))+
@@ -228,7 +228,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)), colour ="bla
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 24-Hour)`)+1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)-1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=c(-.002,-.001,0,.001))+expand_limits(y = 0.001)+scale_x_continuous(breaks=pretty_breaks(5))+
-labs(title="Orthophosphate: 24-Hour ",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
+labs(title="OPO4: 24-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 OPO4_plot <-plot_grid(OPO4_8_plot, OPO4_24_plot, labels = c('A', 'B'), label_size = 12)
 
@@ -241,7 +241,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)), colour ="blac
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 8-Hour)`)+1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)-1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(6))+
-labs(title="Potassium: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
+labs(title="K: 8-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 #BA plot for Potassium 24-hour
 K_24_plot <- ggplot(filter(BA_Plot_Tidy, TEST_NAME=="K") ,aes((Value_24_hour+Value_15_min)/2,`Difference (15-Min - 24-Hour)`))+
@@ -250,7 +250,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)), colour ="bla
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 24-Hour)`)+1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)-1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(7))+
-labs(title="Potassium: 24-Hour ",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
+labs(title="K: 24-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 K_plot <-plot_grid(K_8_plot, K_24_plot, labels = c('A', 'B'), label_size = 12)
 
@@ -285,7 +285,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)), colour ="blac
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 8-Hour)`)+1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)-1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(6))+
-labs(title="Sodium: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
+labs(title="Na: 8-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 #BA plot for Sodium 24-hour
 Sodium_24_plot <- ggplot(filter(BA_Plot_Tidy, TEST_NAME=="Sodium") ,aes((Value_24_hour+Value_15_min)/2,`Difference (15-Min - 24-Hour)`))+
@@ -294,7 +294,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)), colour ="bla
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 24-Hour)`)+1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)-1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(7))+
-labs(title="Sodium: 24-Hour ",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
+labs(title="Na: 24-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 Sodium_plot <-plot_grid(Sodium_8_plot, Sodium_24_plot, labels = c('A', 'B'), label_size = 12)
 
@@ -397,7 +397,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)), colour ="blac
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 8-Hour)`)+1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)-1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(6))+
-labs(title="Total Nitrogen: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
+labs(title="TN: 8-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 #BA plot for Total Nitrogen 24-hour
 TN_24_plot <- ggplot(filter(BA_Plot_Tidy, TEST_NAME=="TN") ,aes((Value_24_hour+Value_15_min)/2,`Difference (15-Min - 24-Hour)`))+
@@ -406,7 +406,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)), colour ="bla
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 24-Hour)`)+1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)-1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(7))+
-labs(title="Total Nitrogen: 24-Hour ",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
+labs(title="TN: 24-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.title = element_text(size=12))
 
 TN_plot <-plot_grid(TN_8_plot, TN_24_plot, labels = c('A', 'B'), label_size = 12)
 
@@ -419,7 +419,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)), colour ="blac
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 8-Hour)`)+1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)-1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(6))+
-labs(title="Total Organic Carbon: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
+labs(title="TOC: 8-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.margin = margin(0, 0, 15, 0),plot.title = element_text(size=12))
 
 #BA plot for Total Organic Carbon 24-hour
 TOC_24_plot <- ggplot(filter(BA_Plot_Tidy, TEST_NAME=="TOC") ,aes((Value_24_hour+Value_15_min)/2,`Difference (15-Min - 24-Hour)`))+
@@ -428,7 +428,7 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)), colour ="bla
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 24-Hour)`)+1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)-1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(7))+
-labs(title="Total Organic Carbon: 24-Hour ",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
+labs(title="TOC: 24-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.margin = margin(0, 0, 15, 0),plot.title = element_text(size=12))
 
 TOC_plot <-plot_grid(TOC_8_plot, TOC_24_plot, labels = c('A', 'B'), label_size = 12)
 
@@ -440,8 +440,8 @@ geom_jitter(shape=21,size=3 ,color="black",fill=Color2,width=0.000,height=0.0001
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)), colour ="black" ,size = 1,linetype="dashed")+
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 8-Hour)`)+1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 8-Hour)`)-1.96*sd(`Difference (15-Min - 8-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
-theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(8))+
-labs(title="Total Phosphorus: 8-Hour ",x=expression("Mean 15-Minute and 8-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 8-Hour ("~mg~L^-1*")"))
+theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=c(-.009,-.006,-.003,0,0.003,0.006,0.009,0.012))+
+labs(title="TP: 8-Hour ")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.margin = margin(0, 0, 15, 0),plot.title = element_text(size=12))
 
 #BA plot for Total Phosphorus 24-hour
 TP_24_plot <- ggplot(filter(BA_Plot_Tidy, TEST_NAME=="TPO4") ,aes((Value_24_hour+Value_15_min)/2,`Difference (15-Min - 24-Hour)`))+
@@ -450,8 +450,21 @@ geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)), colour ="bla
 geom_hline(aes(yintercept =mean(`Difference (15-Min - 24-Hour)`)+1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1)+
 geom_hline(aes(yintercept = mean(`Difference (15-Min - 24-Hour)`)-1.96*sd(`Difference (15-Min - 24-Hour)`)), colour = Color1 ,linetype ="longdash",size = 1) +
 theme_bw()+theme(legend.position="bottom")+scale_y_continuous(breaks=pretty_breaks(7))+
-labs(title="Total Phosphorus: 24-Hour ",x=expression("Mean 15-Minute and 24-Hour ("~mg~L^-1*")"), y=expression("Differences 15-Minute - 24-Hour ("~mg~L^-1*")"))
+labs(title="TP: 24-Hour")+theme(axis.title.x=element_blank(),axis.title.y=element_blank(),plot.margin = margin(0, 0, 15, 0),plot.title = element_text(size=12))
 
 TP_plot <-plot_grid(TP_8_plot, TP_24_plot, labels = c('A', 'B'), label_size = 12)
 
 ggsave("./Figures/BA_Plots/Bland_Altman_TP.jpeg",plot=last_plot(),height=3.5,width=8,units="in")
+
+#plots for analytes where statistically significant differences were not found.
+#Ca,Cl,Mg,NOx,OPO4,K,Na,TN,TOC,TP 
+
+
+plot_grid(ca_8_plot, ca_24_plot,cl_8_plot, cl_24_plot,MG_8_plot, MG_24_plot,NOX_8_plot, NOX_24_plot,K_8_plot, K_24_plot,OPO4_8_plot, OPO4_24_plot,Sodium_8_plot, Sodium_24_plot,TN_8_plot, TN_24_plot, TOC_8_plot, TOC_24_plot,TP_8_plot, TP_24_plot, 
+labels = c('a', 'b','c', 'd','e', 'f','g', 'h','i', 'j','k', 'l','m', 'n','o', 'p','q', 'r','s', 't'),label_size = 11,ncol=4, align = 'v',label_x = .90)+
+draw_label(expression("Mean 15-minute and 8 or 24-hour samples ("*mg/L*")"), x = 0.5, y = 0.012, hjust = .5, angle = 0, size = 14, ) +
+draw_label(expression("Differences 15-minute -  8 or 24-hour samples("*mg/L*")"), x = 0.015, y = 0.5, vjust = .5, angle = 90, size = 14)  
+
+ggsave("./Figures/BA_Plots/Bland_Altman_Analtyes_with_no_effects.jpeg",plot=last_plot(),height=11,width=8.5,units="in")
+
+

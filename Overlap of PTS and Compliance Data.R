@@ -32,7 +32,7 @@ analytes_ERDP <- c("TN","TPO4","TOC","COLOR","OPO4","CL","SO4","NO2","NOX","SIO2
 Sample_Results <- sample_results_final %>%
 rename(SAMPLE_ID="FLDSID",COLLECT_DATE="SDATE",STATION="SITE",SAMPLE_TYPE="TYPE",TEST_NAME="PARAMETER",VALUE="RESULT",UNITS="UNIT") #rename ERDP variables to DBHYDRO format
 
-# 1.) Calculate range of PTS data -----------------------------------------
+# 1a.) Calculate range of PTS data -----------------------------------------
 
 #Min and Max in PTS dataset for each parameter
 PTS_Range <- Sample_Results %>%
@@ -111,7 +111,7 @@ mutate(across(matches('Percent'), percent))
 #Range of data in PTS dataset for each parameter
 Compliance_Range <- Compliance_Marsh_Data %>%
 group_by(TEST_NAME) %>%
-summarise(min_comp=min(VALUE,na.rm=T),max_comp=max(VALUE,na.rm=T)) %>%
+summarise(min_comp=min(VALUE,na.rm=T),max_comp=max(VALUE,na.rm=T),median=median(VALUE,na.rm=T),SD=round(sd(VALUE,na.rm=T),digits=3)) %>%
 mutate(Range_comp=max_comp-min_comp)
 
 
