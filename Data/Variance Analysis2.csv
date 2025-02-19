@@ -1,0 +1,21 @@
+Analyte,Modeled Lab Uncertainty,Preservation Time Effects ,Sample Collection and Analytical Measurement Effects,Combined Standard Uncertainty 8-Hour Preservation Time,Combined Standard Uncertainty 24-Hour Preservation Time,Combined Standard Uncertainty Within Lab Uncertainty (8-Hour Preservation Time),Combined Standard Uncertainty Within Lab Uncertainty (24-Hour Preservation Time),,,,TEST_NAME,"Preservation Time effects, Analytical Measurement effects, Sample Collection Effects",Method Uncertainty,Analytical Uncertainty  and Sample collection effects,Combined Standard Uncertainty,Lab uncertainty,Preservation Time,Column1
+CA,5.859,,,1.449,1.472,Inside,Inside,,,,NOX,0.002,0,0.008,0.008,0.006,24-Hour,Outside Uncertainty
+CL,4.917,,,2.759,3.418,Inside,Inside,,,,NOX,0.003,0,0.008,0.008,0.006,8-Hour,Outside Uncertainty
+COLOR,12.787,,,1.254,1.254,Inside,Inside,,,,SO4,1.476,1.272,0.204,1.288254633,1.219,24-Hour,Outside Uncertainty
+DOC,2.185,,,0.665,0.424,Inside,Inside,,,,SO4,0.885,0.681,0.204,0.710898727,1.219,8-Hour,Inside
+K,0.632,,,0.138,0.146,Inside,Inside,,,,TDSAL,1.957,NA,NA,NA,8,24-Hour,Outside Uncertainty
+MG,1.569,,,0.287,0.348,Inside,Inside,,,,TDSAL,1.954,NA,NA,NA,8,8-Hour,Outside Uncertainty
+NA,5.039,,,1.415,1.456,Inside,Inside,,,,TDSFE,1.363,0,8.548,8.548,3,24-Hour,Outside Uncertainty
+NH4,0.012,,,0.008,0.007,Inside,Inside,,,,TDSFE,1.978,0,8.548,8.548,3,8-Hour,Outside Uncertainty
+NO2,0.002,,,0.001,0.001,Inside,Inside,,,,,,,,,,,
+NOX,0.006,,,0.008,0.008,Outside ,Outside ,,,,,,,,,,,
+OPO4,0.003,,,0.002,0.002,Inside,Inside,,,,,,,,,,,
+SIO2,0.645,,,0.109,0.109,Inside,Inside,,,,,,,,,,,
+SO4,1.219,,,0.711,1.288,Inside,Outside ,,,,,,,,,,,
+TDN,0.153,,,0.029,0.032,Inside,Inside,,,,,,,,,,,
+TDPO4,0.003,,,0.001,0.001,Inside,Inside,,,,,,,,,,,
+TDSAL,8,,,NA,NA,Outside,Outside ,,,,,,,,,,,
+TDSFE,3,,,8.548,8.548,Outside,Outside ,,,,,,,,,,,
+TN,0.153,,,0.054,0.054,Inside,Inside,,,,,,,,,,,
+TOC,2.273,,,0.506,0.482,Inside,Inside,,,,,,,,,,,
+TPO4,0.004,,,0.003,0.003,Inside,Inside,,,,,,,,,,,
