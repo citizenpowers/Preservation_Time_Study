@@ -59,6 +59,7 @@ select("Preservation Time","TEST_NAME","Letter")
       `8-Hour r squared`=cor(Value_15_min, Value_8_hour)^2,
       `8-Hour Accuracy`=round(mean(Value_8_hour/Value_15_min),digits=3),
       `8-Hour Mean Percent Error`=round(mean(abs(`8-Hour Percent Error`)),digits=4),
+      `8-Hour RSD`=round(sd(`Difference (15-Min - 8-Hour)`/(mean(Value_15_min)+mean(Value_8_hour)/2)),digits=4)*100,
       `8-hour effect size`=abs(mean(`Difference (15-Min - 8-Hour)`)/sd(Value_8_hour)),
       `8-Hour Min`=round(min(Value_8_hour),digits=4),                                              #calculate min 8-hour
       `8-Hour Max`=round(max(Value_8_hour),digits=4),                                              #calculate max 8-hour
@@ -94,6 +95,7 @@ select("Preservation Time","TEST_NAME","Letter")
       `24-Hour Bias`=round(mean(`Difference (15-Min - 24-Hour)`),digits=4),                        #calculate Bias 24-hour
       `24-Hour Median Bias`=round(median(abs(`Difference (15-Min - 24-Hour)`)),digits=4),               #calculate median Bias 24-hour
       `24-Hour Mean Percent Error`=round(mean(abs(`24-Hour Percent Error`)),digits=4),                  #calculate mean percent 24-hour
+      `24-Hour RSD`=round(sd(`Difference (15-Min - 24-Hour)`/(mean(Value_15_min)+mean(Value_24_hour)/2)),digits=4)*100,
       `24-Hour Median Percent Error`=round(median(`24-Hour Percent Error`),digits=4),              #calculate median percent 24-hour
       `24-Hour Uncertainty as Percent Error`=round(mean(abs(`24-Hour Sample Uncertainty`/Value_24_hour)*100),digits=4),     #calculate percent error of uncertainty
       `24-Hour Mean log Bias`=round(10^(mean(`Log10 Difference (15-Min - 24-Hour)`)),digits=4),           #calculate mean of log differences
@@ -150,8 +152,8 @@ select("Preservation Time","TEST_NAME","Letter")
   
   
   
-  Summary_Table <- LOA %>%
-  select( TEST_NAME,`Pearson Correlation 8-hour`, `Pearson Correlation 24-hour`,`8-Hour Bias`,`8-Hour Accuracy`,`24-Hour Bias`,`24-Hour Accuracy`,`8-Hour Mean Percent Error`,`24-Hour Mean Percent Error`,
+Summary_Table <- LOA %>%
+select( TEST_NAME,`Pearson Correlation 8-hour`, `Pearson Correlation 24-hour`,`8-Hour Bias`,`8-Hour Accuracy`,`24-Hour Bias`,`24-Hour Accuracy`,`8-Hour Mean Percent Error`,`8-Hour RSD`,`24-Hour Mean Percent Error`,`24-Hour RSD`,
           `8-Hour Wilcox Ranked Sign`,`24-Hour Wilcox Ranked Sign`,`8-hour effect size`,`24-hour effect size`,`8-Hour r squared`,`24-Hour r squared`,
         `8-Hour LOA Lower`,`8-Hour LOA Upper`,`24-Hour LOA Lower`,`24-Hour LOA Upper`)
   
