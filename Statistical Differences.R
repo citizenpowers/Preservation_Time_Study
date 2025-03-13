@@ -139,6 +139,8 @@ select("Preservation Time","TEST_NAME","Letter")
       `Mean Uncertainty`=mean(`Immediate Sample Uncertainty`),                                     #Mean sample uncertainty
       `8-Hour Wilcox Ranked Sign`=wilcox.test(Value_15_min,Value_8_hour,paired = TRUE)$p.value,                 #Wilcoxon ranked sign test 8-hour      
       `24-Hour Wilcox Ranked Sign`=wilcox.test(Value_15_min,Value_24_hour,paired = TRUE)$p.value,               #Wilcoxon ranked sign test 24-hour
+      `8-Hour T-test`=t.test(Value_15_min,Value_8_hour,paired = TRUE)$p.value, 
+      `24-Hour T-test`=t.test(Value_15_min,Value_24_hour,paired = TRUE)$p.value, 
       `8-Hour Exceedences`=sum(ifelse(abs(`Difference (15-Min - 8-Hour)`) >`Immediate Sample Uncertainty`,1,0)),     #Number of difference that Exceed Uncertainty 8-hour  
       `24-Hour Exceedences`=sum(ifelse(abs(`Difference (15-Min - 24-Hour)`) >`Immediate Sample Uncertainty`,1,0)),   #Number of difference that Exceed Uncertainty 24-HOur
       `8-Hour Inside Line of Equality`=ifelse(between(0,`8-Hour Bias 95% Lower CI`,`8-Hour Bias 95% Upper CI`),"Inside","Outside"),
@@ -154,8 +156,8 @@ select("Preservation Time","TEST_NAME","Letter")
   
 Summary_Table <- LOA %>%
 select( TEST_NAME,`Pearson Correlation 8-hour`, `Pearson Correlation 24-hour`,`8-Hour Bias`,`8-Hour Accuracy`,`24-Hour Bias`,`24-Hour Accuracy`,`8-Hour Mean Percent Error`,`8-Hour RSD`,`24-Hour Mean Percent Error`,`24-Hour RSD`,
-          `8-Hour Wilcox Ranked Sign`,`24-Hour Wilcox Ranked Sign`,`8-hour effect size`,`24-hour effect size`,`8-Hour r squared`,`24-Hour r squared`,
-        `8-Hour LOA Lower`,`8-Hour LOA Upper`,`24-Hour LOA Lower`,`24-Hour LOA Upper`)
+          `8-Hour Wilcox Ranked Sign`,`8-Hour T-test`,`24-Hour Wilcox Ranked Sign`,`24-Hour T-test`,`8-hour effect size`,`24-hour effect size`,`8-Hour r squared`,`24-Hour r squared`,
+        `8-Hour LOA Lower`,`8-Hour LOA Upper`,`24-Hour LOA Lower`,`24-Hour LOA Upper`,`SE 8-Hour Bias`,`SE 24-Hour Bias`)
   
   write.csv(Summary_Table,file="./Data/Summary_Table.csv",row.names=FALSE)
   

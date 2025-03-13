@@ -25,7 +25,7 @@ library(ggrepel)
 
 Sample_Results_Tidy <- read_csv("Data/Sample_Results_Tidy.csv")
 
-EVPA_Data <- read_excel("./Data/Replicate Sample Data.xlsx", sheet = "EVPA")
+EVPA_Data <- read_excel("Data/Replicate Sample Data.xlsx", sheet = "EVPA")
 RTBG_Data <- read_excel("./Data/Replicate Sample Data.xlsx", sheet = "RTBG")
 OLIT_Data <- read_excel("./Data/Replicate Sample Data.xlsx", sheet = "OLIT")
 WCA1T_Data <- read_excel("./Data/Replicate Sample Data.xlsx", sheet = "WCA1T")
@@ -53,6 +53,9 @@ mutate(Date=as.Date(DATE_COLLECTED))  %>%
 mutate(`Station and Time`= paste(STATION_ID,Date))  %>%
 filter(SAMPLE_TYPE_NEW=="RS") %>%
 select(`Station and Time`)
+
+
+
 
 All_Data <- EVPA_Data  %>%
 bind_rows(RTBG_Data)   %>%
@@ -123,9 +126,9 @@ left_join(select(Samples,PROJECT_CODE,STATION_ID,Date,TEST_NAME,VALUE), by =c("P
 rename(`Replicate 1`=VALUE,`Replicate 2`=VALUE.x,`Replicate 3`=VALUE.y) %>%
 #mutate(mean = (`Replicate 1`+`Replicate 2`+`Replicate 3`)/(is.finite(`Replicate 1`)+is.finite(`Replicate 2`)+is.finite(`Replicate 3`))) %>%  #using all 3 reps
 mutate(mean = (`Replicate 1`+`Replicate 2`)/(is.finite(`Replicate 1`)+is.finite(`Replicate 2`))) %>%             #using only 2 replicates
-mutate(`Diff rep 1 - rep 2`=ifelse(is.finite(`Replicate 1`) && is.finite(`Replicate 2`),`Replicate 1`-`Replicate 2`,NA)) 
-#mutate(`Diff rep 1 - rep 3`=ifelse(is.finite(`Replicate 1`) && is.finite(`Replicate 3`),`Replicate 1`-`Replicate 3`,NA)) %>%
-#mutate(`Diff rep 2 - rep 3`=ifelse(is.finite(`Replicate 2`) && is.finite(`Replicate 3`),`Replicate 2`-`Replicate 3`,NA)) 
+mutate(`Diff rep 1 - rep 2`=ifelse(is.finite(`Replicate 1`) && is.finite(`Replicate 2`),`Replicate 1`-`Replicate 2`,NA)) %>%
+mutate(`Diff rep 1 - rep 3`=ifelse(is.finite(`Replicate 1`) && is.finite(`Replicate 3`),`Replicate 1`-`Replicate 3`,NA)) %>%
+mutate(`Diff rep 2 - rep 3`=ifelse(is.finite(`Replicate 2`) && is.finite(`Replicate 3`),`Replicate 2`-`Replicate 3`,NA)) 
 #mutate(`Diff rep 2`=ifelse(is.finite(`Replicate 2`),`Replicate 2`-mean,NA)) 
 #mutate(`Diff rep 3`=ifelse(is.finite(`Replicate 3`),`Replicate 3`-mean,NA)) 
 
@@ -155,6 +158,8 @@ mutate(TEST_NAME= case_when(TEST_NAME=="PHOSPHATE, ORTHO AS P" ~"OPO4",
                               TEST_NAME=="NITRITE-N" ~ "NO2",
                               TRUE ~ as.character(TEST_NAME)))
 
+
+write.csv(All_Data_wide,file="./Data/Replicates_Data.csv",row.names=FALSE)
 
 
 # Compare range of PTS data to Compliance Data ----------------------------
@@ -193,7 +198,7 @@ Analyte_Range <- EVPA_Data  %>%
   filter(TEST_NAME  %in% analytes) %>%
   dplyr::select(TEST_NAME,VALUE,UNITS) %>%
   mutate(SOURCE="Compliance") %>%
-  bind_rows(Sample_Results %>% filter(is.na(FQC)) %>%  select(TEST_NAME,VALUE,UNITS)  %>% mutate(SOURCE="PTS") %>% filter(TEST_NAME %in% analytes)  )
+  bind_rows(Sample_Results_Tidy %>% filter(is.na(FQC)) %>%  select(TEST_NAME,VALUE,UNITS)  %>% mutate(SOURCE="PTS") %>% filter(TEST_NAME %in% analytes)  )
 
 analytes <- c("TN","TPO4","TOC","COLOR","OPO4","CL","SO4","NO2","NOX","SIO2","TDPO4","DOC","TDN","NH4","NA","MG","CA","K","TDSFE") #NO3 and hardness are calculated so excluded. TDSAL excluded due to lab method
 
